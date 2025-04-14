@@ -1,4 +1,8 @@
-/**
+/* Amplify Params - DO NOT EDIT
+	ENV
+	FUNCTION_CREATEUSER_NAME
+	REGION
+Amplify Params - DO NOT EDIT *//**
  * @fileoverview
  *
  * This CloudFormation Trigger creates a handler which awaits the other handlers

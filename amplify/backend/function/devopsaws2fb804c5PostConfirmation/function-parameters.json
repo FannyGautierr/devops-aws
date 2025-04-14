@@ -12,5 +12,13 @@
   "triggerTemplate": "PostConfirmation.json.ejs",
   "triggerEventPath": "PostConfirmation.event.json",
   "roleName": "devopsaws2fb804c5PostConfirmation",
-  "skipEdit": true
+  "skipEdit": true,
+  "permissions": {
+    "function": {
+      "createUser": [
+        "create",
+        "read"
+      ]
+    }
+  }
 }
