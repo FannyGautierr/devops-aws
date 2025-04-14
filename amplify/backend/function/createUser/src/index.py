@@ -1,0 +1,30 @@
+import json
+import os
+
+import boto3
+
+def handler(event, context):
+  print(event)
+  
+  dynamodb = boto3.resource('dynamodb')
+  table = dynamodb.Table(os.environ['STORAGE_USERS_NAME'])
+  table.put_item(
+        Item={
+            'id': event['id'],
+            'name': event['name'],
+            'email': event['email'],
+        }
+  )
+  
+  print('received event:')
+  print(event)
+  
+  return {
+      'statusCode': 200,
+      'headers': {
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+      },
+      'body': json.dumps('Hello from your new Amplify Python lambda!')
+  }
