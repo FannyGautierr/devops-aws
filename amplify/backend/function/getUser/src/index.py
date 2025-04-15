@@ -12,7 +12,7 @@ def handler(event, context):
     try:
         response = table.get_item(
             Key={
-                'id': event['id']
+                'email': event['email']
             }
         )
         
