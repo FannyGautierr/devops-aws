@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '@/views/Dashboard.vue'
 import { getCurrentUser} from 'aws-amplify/auth';
+import SignUp from '@/views/SignUp.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/signup',
       name: 'signup',
-      component: () => import('../views/SignUp.vue'),
+      component: SignUp,
     },
     {
       path: '/dashboard',
