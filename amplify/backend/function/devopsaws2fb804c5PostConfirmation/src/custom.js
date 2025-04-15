@@ -7,8 +7,6 @@ const lambdaClient = new LambdaClient();
 
 exports.handler = async (event, context) => {
   console.log(event);
-  // insert code to be executed by your lambda trigger
-  const id = event.id;
   const email = event.email;
   const name = event.name;
 
