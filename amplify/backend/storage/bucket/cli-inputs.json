@@ -1,0 +1,12 @@
+{
+  "resourceName": "bucket",
+  "policyUUID": "e61bcc21",
+  "bucketName": "avatars",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
