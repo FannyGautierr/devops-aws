@@ -1,17 +1,26 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { getCurrentUser } from 'aws-amplify/auth';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 export const useUserStore = defineStore('user', () => {
-    const user = ref(null)
-    const isAuthenticated = computed(() => !!user.value)
-    
-    function setUser(newUser: any) {
-        user.value = newUser
+    async function currentAuthenticatedUser() {
+        try {
+          const { username, userId, signInDetails } = await getCurrentUser();
+          return { username, userId, signInDetails };
+        } catch (err) {
+          console.log(err);
+        }
     }
-    
-    function clearUser() {
-        user.value = null
+
+    async function currentSession() {
+    try {
+        const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+        return { accessToken, idToken };
+    } catch (err) {
+        console.log(err);
     }
+    }
+
     
-    return { user, isAuthenticated, setUser, clearUser }
+    return {  currentAuthenticatedUser, currentSession }
 })

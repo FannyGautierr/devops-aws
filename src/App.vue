@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import Button from './components/ui/button/Button.vue';
-import Authentication from './views/Authentication.vue';
 </script>
 
 <template>
   <div class="flex flex-col h-screen m-0 justify-center items-center"> 
-    <!-- <Authentication /> -->
     <RouterView />
   </div>
 </template>
