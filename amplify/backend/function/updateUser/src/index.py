@@ -12,7 +12,7 @@ def handler(event, context):
     try:
         response = table.update_item(
             Key={
-                'uuid': event['uuid'] 
+                'id': event['id'] 
             },
             UpdateExpression="SET #name = :name, #email = :email",
             ExpressionAttributeNames={

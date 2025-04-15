@@ -8,7 +8,7 @@ def handler(event, context):
   table = dynamodb.Table(os.environ['STORAGE_USERS_NAME'])
   table.put_item(
         Item={
-            'uuid': event['uuid'],
+            'id': event['id'],
             'email': event['email'],
             'name': event['name'],
         }
