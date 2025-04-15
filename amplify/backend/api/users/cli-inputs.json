@@ -14,8 +14,7 @@
       "permissions": {
         "setting": "private",
         "auth": [
-          "read",
-          "update"
+          "read"
         ]
       }
     }
