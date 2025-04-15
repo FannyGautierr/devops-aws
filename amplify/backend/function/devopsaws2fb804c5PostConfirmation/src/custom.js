@@ -8,8 +8,8 @@ const lambdaClient = new LambdaClient();
 exports.handler = async (event, context) => {
   console.log(event);
   const id = event.userName;
-  const email = event.email;
-  const name = event.name;
+  const email = event.request.userAttributes.email;
+  const name = event.request.userAttributes.name;
 
   const FunctionName = process.env.FUNCTION_CREATEUSER_NAME;
 
