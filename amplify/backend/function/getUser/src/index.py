@@ -6,17 +6,32 @@ import boto3
 def handler(event, context):
     print(event)
     
+    # Extract IAM user info from request context
+    try:
+        user_id = event['requestContext']['authorizer']['claims']['sub']
+        print(f"Authenticated user ID (sub): {user_id}")
+    except Exception as e:
+        print('Error extracting user from event:', e)
+        return {
+            'statusCode': 400,
+            'headers': {
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            },
+            'body': json.dumps({'message': 'Invalid request context', 'error': str(e)})
+        }
+
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['STORAGE_USERS_NAME'])
     
     try:
         response = table.get_item(
             Key={
-                'id': event['id']
+                'id': user_id
             }
         )
         
-        # Check if the user exists
         if 'Item' in response:
             user = response['Item']
             print('User retrieved successfully:', user)
@@ -34,7 +49,6 @@ def handler(event, context):
                 })
             }
         else:
-            # User not found
             return {
                 'statusCode': 404,
                 'headers': {

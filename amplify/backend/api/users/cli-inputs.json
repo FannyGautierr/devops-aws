@@ -1,18 +1,22 @@
 {
   "version": 1,
   "paths": {
-    "/get-user": {
-      "name": "/get-user",
-      "lambdaFunction": "getUser",
-      "permissions": {
-        "setting": "open"
-      }
-    },
     "/update-user": {
       "name": "/update-user",
       "lambdaFunction": "updateUser",
       "permissions": {
         "setting": "open"
+      }
+    },
+    "/get-user": {
+      "name": "/get-user",
+      "lambdaFunction": "getUser",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "read",
+          "update"
+        ]
       }
     }
   }

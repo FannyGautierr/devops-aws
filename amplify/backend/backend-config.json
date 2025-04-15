@@ -8,7 +8,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "getUser"
+          "resourceName": "updateUser"
         },
         {
           "attributes": [
@@ -16,7 +16,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "updateUser"
+          "resourceName": "getUser"
         }
       ],
       "providerPlugin": "awscloudformation",
