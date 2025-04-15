@@ -4,6 +4,7 @@ import os
 import boto3
 
 def handler(event, context):  
+  print(event)
   dynamodb = boto3.resource('dynamodb')
   table = dynamodb.Table(os.environ['STORAGE_USERS_NAME'])
   table.put_item(
