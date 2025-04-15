@@ -7,13 +7,6 @@
       "permissions": {
         "setting": "open"
       }
-    },
-    "/create-users": {
-      "name": "/create-users",
-      "lambdaFunction": "createUser",
-      "permissions": {
-        "setting": "open"
-      }
     }
   }
 }

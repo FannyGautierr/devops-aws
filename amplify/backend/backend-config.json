@@ -9,14 +9,6 @@
           ],
           "category": "function",
           "resourceName": "getUser"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "createUser"
         }
       ],
       "providerPlugin": "awscloudformation",
