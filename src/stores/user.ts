@@ -1,103 +1,3 @@
-// import { defineStore } from 'pinia'
-// import { getCurrentUser } from 'aws-amplify/auth';
-// import { fetchAuthSession } from 'aws-amplify/auth';
-// import { get, put, post } from 'aws-amplify/api';
-// import { ref } from 'vue';
-
-// export const useUserStore = defineStore('user', () => {
-//   const user = ref(null);
-//   const loading = ref(false);
-//   const error = ref(null);
-
-//   // Get the authenticated user from Cognito
-//   async function currentAuthenticatedUser() {
-//     try {
-//       const userInfo = await getCurrentUser();
-//       return {
-//         username: userInfo.username,
-//         userId: userInfo.userId,
-//         signInDetails: userInfo.signInDetails
-//       };
-//     } catch (err) {
-//       console.log('Error getting authenticated user:', err);
-//       return null;
-//     }
-//   }
-
-//   // Get the current session tokens
-//   async function currentSession() {
-//     try {
-//       const { tokens } = await fetchAuthSession();
-//       if (!tokens) {
-//         return null;
-//       }
-//       return {
-//         accessToken: tokens.accessToken,
-//         idToken: tokens.idToken
-//       };
-//     } catch (err) {
-//       console.log('Error getting current session:', err);
-//       return null;
-//     }
-//   }
-
-//   // Fetch user data from your API
-//   async function fetchUserData() {
-//     loading.value = true;
-//     error.value = null;
-    
-//     try {
-//       const response = await get({
-//         apiName: 'users',
-//         path: '/get-user'
-//       });
-      
-//       const { body } = await response.response;
-//       const userData = await body.json();
-//       user.value = userData.user;
-//       console.log('User data fetched:', user.value);
-//       return userData.user;
-//     } catch (err) {
-//       console.log('Error fetching user data:', err);
-//       error.value = err.message || 'Failed to fetch user data';
-//       return null;
-//     } finally {
-//       loading.value = false;
-//     }
-//   }
-
-//   async function updateUser(){
-//     try{
-//       const user = await getCurrentUser()
-//       const update = await put({
-//         apiName: 'users',
-//         path: '/update-user',
-//         body: {
-//           id:user.userId,
-//           // Add other user data to update
-//         }
-        
-//       });
-//       const { body } = await update.response;
-//       const updatedUser = await body.json();
-//       user.value = updatedUser;
-//       return updatedUser;
-//     }catch(err){
-//       console.log('Error updating user data:', err);
-
-//     }
-//   }
-
-//   return {
-//     user,
-//     loading,
-//     error,
-//     currentAuthenticatedUser,
-//     currentSession,
-//     fetchUserData
-//   }
-// })
-
 import { defineStore } from 'pinia';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { fetchAuthSession } from 'aws-amplify/auth';
@@ -109,7 +9,6 @@ export const useUserStore = defineStore('user', () => {
   const loading = ref(false);
   const error = ref(null);
 
-  // Get the authenticated user from Cognito
   async function currentAuthenticatedUser() {
     try {
       const userInfo = await getCurrentUser();
@@ -124,7 +23,6 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  // Get the current session tokens
   async function currentSession() {
     try {
       const { tokens } = await fetchAuthSession();
@@ -141,7 +39,6 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  // Fetch user data from your API
   async function fetchUserData() {
     loading.value = true;
     error.value = null;
@@ -154,20 +51,19 @@ export const useUserStore = defineStore('user', () => {
 
       const { body } = await response.response;
       const userData = await body.json();
+      // @ts-ignore
       user.value = userData.user;
-      console.log('User data fetched:', user.value);
-      console.log(user.value)
+      // @ts-ignore
       return userData.user;
     } catch (err) {
       console.log('Error fetching user data:', err);
+      // @ts-ignore
       error.value = err.message || 'Failed to fetch user data';
       return null;
     } finally {
       loading.value = false;
     }
   }
-
-  // Automatically fetch user data when the user signs in
   async function initializeUser() {
     try {
       const authenticatedUser = await currentAuthenticatedUser();
@@ -182,14 +78,13 @@ export const useUserStore = defineStore('user', () => {
 
   async function updateUser(name: string ) {
     try {
-      console.log('Updating user data...');
-      console.log(user.value.email)
       const response = await put({
         apiName: 'users',
         path: '/update-user',
         options: {
           body: {
-            name: name, // Use the name parameter that was passed in
+            name: name, 
+            // @ts-ignore
             email: user.value.email 
           },
         }
@@ -197,6 +92,7 @@ export const useUserStore = defineStore('user', () => {
 
       const { body } = await response.response;
       const updatedUser = await body.json();
+      // @ts-ignore
       user.value = updatedUser;
       console.log('User data updated:', user.value);
       return updatedUser;
@@ -205,8 +101,7 @@ export const useUserStore = defineStore('user', () => {
       console.log('Error updating user data:', err);
     }
   }
-
-  // Watch for changes in the user state and trigger actions
+  
   watch(user, (newUser) => {
     if (newUser) {
       console.log('User state updated:', newUser);

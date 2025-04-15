@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { onMounted } from 'vue';
 import TheWelcome from '../components/TheWelcome.vue'
 import { useUserStore } from '@/stores/user';
