@@ -1,15 +1,15 @@
 {
   "version": 1,
   "paths": {
-    "/get-users": {
-      "name": "/get-users",
+    "/get-user": {
+      "name": "/get-user",
       "lambdaFunction": "getUser",
       "permissions": {
         "setting": "open"
       }
     },
-    "/update-users": {
-      "name": "/update-users",
+    "/update-user": {
+      "name": "/update-user",
       "lambdaFunction": "updateUser",
       "permissions": {
         "setting": "open"
