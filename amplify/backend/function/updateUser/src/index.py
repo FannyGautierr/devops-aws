@@ -10,9 +10,16 @@ def handler(event, context):
     table = dynamodb.Table(os.environ['STORAGE_USERS_NAME'])
     
     try:
+        print('Event:', event)
+        if isinstance(event['body'], str):
+            body = json.loads(event['body'])
+        else:
+            body = event['body']
+        
         response = table.update_item(
             Key={
-                'id': event['id'] 
+                # 'id': event['id'] 
+                'id': event['requestContext']['identity']['cognitoAuthenticationProvider'].split(':CognitoSignIn:')[1].split('/')[0]
             },
             UpdateExpression="SET #name = :name, #email = :email",
             ExpressionAttributeNames={
@@ -20,8 +27,8 @@ def handler(event, context):
                 '#email': 'email'
             },
             ExpressionAttributeValues={
-                ':name': event['name'],
-                ':email': event['email']
+                ':name': body['name'],
+                ':email': body['email'],
             },
             ReturnValues="UPDATED_NEW"
         )

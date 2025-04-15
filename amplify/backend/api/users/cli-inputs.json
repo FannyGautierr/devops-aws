@@ -1,13 +1,6 @@
 {
   "version": 1,
   "paths": {
-    "/update-user": {
-      "name": "/update-user",
-      "lambdaFunction": "updateUser",
-      "permissions": {
-        "setting": "open"
-      }
-    },
     "/get-user": {
       "name": "/get-user",
       "lambdaFunction": "getUser",
@@ -15,6 +8,16 @@
         "setting": "private",
         "auth": [
           "read"
+        ]
+      }
+    },
+    "/update-user": {
+      "name": "/update-user",
+      "lambdaFunction": "updateUser",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "update"
         ]
       }
     }
