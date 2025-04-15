@@ -95,7 +95,17 @@
     },
     "getUser": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "users"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
