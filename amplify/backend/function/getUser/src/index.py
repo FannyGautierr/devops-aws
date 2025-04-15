@@ -6,9 +6,8 @@ import boto3
 def handler(event, context):
     print(event)
     
-    # Extract IAM user info from request context
     try:
-        user_id = event['requestContext']['authorizer']['claims']['sub']
+        user_id = event['requestContext']['cognitoAuthenticationProvider'].split(':CognitoSignIn:')[1].split('/')[0]
         print(f"Authenticated user ID (sub): {user_id}")
     except Exception as e:
         print('Error extracting user from event:', e)
