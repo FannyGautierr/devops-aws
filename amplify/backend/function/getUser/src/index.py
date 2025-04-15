@@ -7,7 +7,7 @@ def handler(event, context):
     print(event)
     
     try:
-        user_id = event['requestContext']['cognitoAuthenticationProvider'].split(':CognitoSignIn:')[1].split('/')[0]
+        user_id = event['requestContext']['identity']['cognitoAuthenticationProvider'].split(':CognitoSignIn:')[1].split('/')[0]
         print(f"Authenticated user ID (sub): {user_id}")
     except Exception as e:
         print('Error extracting user from event:', e)
