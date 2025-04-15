@@ -7,6 +7,7 @@ const lambdaClient = new LambdaClient();
 
 exports.handler = async (event, context) => {
   console.log(event);
+  const uuid = event.userName;
   const email = event.email;
   const name = event.name;
 
@@ -15,7 +16,7 @@ exports.handler = async (event, context) => {
   const asyncLambdaParams = {
     FunctionName: FunctionName,
     InvocationType: 'Event',
-    Payload: JSON.stringify({ id, email, name }),
+    Payload: JSON.stringify({ uuid, email, name }),
   };
 
   const command = new InvokeCommand(asyncLambdaParams);

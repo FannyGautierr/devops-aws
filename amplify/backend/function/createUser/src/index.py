@@ -3,13 +3,12 @@ import os
 
 import boto3
 
-def handler(event, context):
-  print(event)
-  
+def handler(event, context):  
   dynamodb = boto3.resource('dynamodb')
   table = dynamodb.Table(os.environ['STORAGE_USERS_NAME'])
   table.put_item(
         Item={
+            'uuid': event['uuid'],
             'email': event['email'],
             'name': event['name'],
         }

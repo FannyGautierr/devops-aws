@@ -12,14 +12,16 @@ def handler(event, context):
     try:
         response = table.update_item(
             Key={
-                'email': event['email'] 
+                'uuid': event['uuid'] 
             },
-            UpdateExpression="SET #name = :name",
+            UpdateExpression="SET #name = :name, #email = :email",
             ExpressionAttributeNames={
                 '#name': 'name', 
+                '#email': 'email'
             },
             ExpressionAttributeValues={
                 ':name': event['name'],
+                ':email': event['email']
             },
             ReturnValues="UPDATED_NEW"
         )
