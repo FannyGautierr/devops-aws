@@ -8,9 +8,9 @@
         "setting": "open"
       }
     },
-    "/create-users": {
-      "name": "/create-users",
-      "lambdaFunction": "createUser",
+    "/update-users": {
+      "name": "/update-users",
+      "lambdaFunction": "updateUser",
       "permissions": {
         "setting": "open"
       }
