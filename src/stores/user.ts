@@ -109,6 +109,7 @@ export const useUserStore = defineStore('user', () => {
         apiName: 'users',
         path: '/update-user',
         options: {
+          // @ts-ignore
           body: {
             // @ts-ignore
             name: user.value?.name || '',
