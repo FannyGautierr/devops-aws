@@ -228,7 +228,6 @@ async function saveAddress() {
     </Card>
     
     <!-- Display existing addresses (read-only) -->
-    // @ts-ignore
     <Card v-for="(address, index) in addresses" :key="address.id || index" class="mb-4">
       <CardHeader class="flex flex-row items-center justify-between py-3">
         <CardTitle class="text-base">
