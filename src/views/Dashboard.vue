@@ -1,5 +1,3 @@
-
-
 <script setup lang="ts">
 // @ts-nocheck
 import { useUserStore } from '@/stores/user';
@@ -16,7 +14,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import AvatarUpload from '@/components/AvatarUpload.vue';
+import { toast } from 'vue-sonner';
 
 const userStore = useUserStore();
 const isLoading = ref(false);
@@ -52,17 +51,27 @@ onMounted(async () => {
 async function updateProfile() {
   try {
     isLoading.value = true;
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Update user profile in store
-    await userStore.updateUser(form.value.name);
+    // Update user profile in store with all form fields
+    const updatedProfile = {
+      name: form.value.name,
+      email: form.value.email,
+      bio: form.value.bio,
+      location: form.value.location,
+      website: form.value.website,
+      // Preserve the existing avatarKey if it exists
+      avatarKey: userStore.user?.avatarKey || null
+    };
+    
+    // Call the API to update the user profile
+    await userStore.updateUser(updatedProfile.name);
     
     // Update successful
-    alert("Profile updated successfully");
+    toast.success("Profile updated successfully");
   } catch (error) {
     // Update failed
-    alert("Error updating profile");
+    toast.error("Error updating profile");
+    console.error('Error updating profile:', error);
   } finally {
     isLoading.value = false;
   }
@@ -75,6 +84,10 @@ const getInitials = (name: string) => {
     .join('')
     .toUpperCase();
 };
+
+const handleAvatarUpdate = (avatar) => {
+  console.log('Avatar updated:', avatar);
+};
 </script>
 
 <template>
@@ -86,14 +99,10 @@ const getInitials = (name: string) => {
     
     <div v-else-if="userStore.user" class="fade-in">
       <div class="flex flex-col md:flex-row items-center mb-6">
-        <Avatar class="h-24 w-24 md:mr-6 mb-4 md:mb-0">
-          
-          <AvatarImage :src="userStore.user.avatarUrl" alt="User avatar" />
-        
-          <AvatarFallback>{{ getInitials(userStore.user.name) }}</AvatarFallback>
-        </Avatar>
+        <div class="md:mr-6 mb-4 md:mb-0">
+          <AvatarUpload size="large" @update:avatar="handleAvatarUpdate" />
+        </div>
         <div>
-          
           <h1 class="text-3xl font-bold">Welcome, {{ userStore.user.name }}</h1>
           <p class="text-gray-500">Manage your profile information</p>
         </div>

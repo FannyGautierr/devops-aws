@@ -16,21 +16,37 @@ def handler(event, context):
         else:
             body = event['body']
         
+        # Build update expression and attribute values dynamically
+        update_expression = "SET #name = :name, #email = :email"
+        expression_attribute_names = {
+            '#name': 'name', 
+            '#email': 'email'
+        }
+        expression_attribute_values = {
+            ':name': body['name'],
+            ':email': body['email'],
+        }
+        
+        # Add avatarKey and avatarUrl if they exist in the request
+        if 'avatarKey' in body and body['avatarKey']:
+            update_expression += ", #avatarKey = :avatarKey"
+            expression_attribute_names['#avatarKey'] = 'avatarKey'
+            expression_attribute_values[':avatarKey'] = body['avatarKey']
+            
+        if 'avatarUrl' in body and body['avatarUrl']:
+            update_expression += ", #avatarUrl = :avatarUrl"
+            expression_attribute_names['#avatarUrl'] = 'avatarUrl'
+            expression_attribute_values[':avatarUrl'] = body['avatarUrl']
+        
         response = table.update_item(
             Key={
                 # 'id': event['id'] 
                 'id': event['requestContext']['identity']['cognitoAuthenticationProvider'].split(':CognitoSignIn:')[1].split('/')[0]
             },
-            UpdateExpression="SET #name = :name, #email = :email",
-            ExpressionAttributeNames={
-                '#name': 'name', 
-                '#email': 'email'
-            },
-            ExpressionAttributeValues={
-                ':name': body['name'],
-                ':email': body['email'],
-            },
-            ReturnValues="UPDATED_NEW"
+            UpdateExpression=update_expression,
+            ExpressionAttributeNames=expression_attribute_names,
+            ExpressionAttributeValues=expression_attribute_values,
+            ReturnValues="ALL_NEW"  # Return all attributes of the updated item
         )
         
         print('Update response:', response)
@@ -42,10 +58,7 @@ def handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
             },
-            'body': json.dumps({
-                'message': 'User updated successfully',
-                'updatedAttributes': response.get('Attributes', {})
-            })
+            'body': json.dumps(response.get('Attributes', {}))
         }
     except Exception as e:
         print('Error updating user:', e)
