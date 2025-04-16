@@ -1,5 +1,10 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
+    "address": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    },
     "users": {
       "ApiId": "string",
       "ApiName": "string",
@@ -18,6 +23,13 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "createAddresses": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "createUser": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

@@ -37,7 +37,7 @@ def handler(event, context):
             IndexName= 'user_ids',
             KeyConditionExpression=Key('user_id').eq(user_id)
         )
-        
+        print('Response from DynamoDB:', response_address)
         if 'Item' in response:
             user = response['Item']
             print('User retrieved successfully:', user)

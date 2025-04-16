@@ -1,0 +1,15 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "auth": {
+      "devopsaws2fb804c5": [
+        "create"
+      ]
+    },
+    "storage": {
+      "address": [
+        "create"
+      ]
+    }
+  }
+}

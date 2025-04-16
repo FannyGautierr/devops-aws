@@ -6,6 +6,7 @@ import { ref, watch } from 'vue';
 
 export const useUserStore = defineStore('user', () => {
   const user = ref(null);
+  const address = ref([]);
   const loading = ref(false);
   const error = ref(null);
 
@@ -48,13 +49,17 @@ export const useUserStore = defineStore('user', () => {
         apiName: 'users',
         path: '/get-user',
       });
-
+      console.log('Response:', response);
       const { body } = await response.response;
       const userData = await body.json();
       // @ts-ignore
+      console.log('User data:', userData.address);
+      // @ts-ignore
       user.value = userData.user;
       // @ts-ignore
-      return userData.user;
+      address.value = userData?.address;
+      // @ts-ignore
+      return userData;
     } catch (err) {
       console.log('Error fetching user data:', err);
       // @ts-ignore
@@ -145,6 +150,7 @@ export const useUserStore = defineStore('user', () => {
     user,
     loading,
     error,
+    address,
     currentAuthenticatedUser,
     updateUser,
     updateUserAvatar,
