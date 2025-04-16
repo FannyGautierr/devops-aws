@@ -102,6 +102,38 @@ export const useUserStore = defineStore('user', () => {
     }
   }
   
+  async function updateUserAvatar(avatarKey: string, avatarUrl?: string) {
+    try {
+      console.log('key', avatarKey, 'url', avatarUrl);
+      const response = await put({
+        apiName: 'users',
+        path: '/update-user',
+        options: {
+          body: {
+            // @ts-ignore
+            name: user.value?.name || '',
+            // @ts-ignore
+            email: user.value?.email || '',
+            avatarKey: avatarKey,
+            avatarUrl: avatarUrl
+          },
+        }
+      });
+
+      const { body } = await response.response;
+      const updatedUser = await body.json();
+      // @ts-ignore
+      user.value = updatedUser;
+      console.log('User avatar updated:', user.value);
+      return updatedUser;
+    } catch(err) {
+      console.log('Error updating user avatar:', err);
+      // @ts-ignore
+      error.value = err.message || 'Failed to update avatar';
+      throw err;
+    }
+  }
+  
   watch(user, (newUser) => {
     if (newUser) {
       console.log('User state updated:', newUser);
@@ -114,6 +146,7 @@ export const useUserStore = defineStore('user', () => {
     error,
     currentAuthenticatedUser,
     updateUser,
+    updateUserAvatar,
     currentSession,
     fetchUserData,
     initializeUser,
