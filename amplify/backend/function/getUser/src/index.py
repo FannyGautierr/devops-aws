@@ -2,6 +2,7 @@ import json
 import os
 
 import boto3
+from boto3.dynamodb.conditions import Key
 
 def handler(event, context):
     print(event)
@@ -23,12 +24,18 @@ def handler(event, context):
 
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['STORAGE_USERS_NAME'])
+    table_address = dynamodb.Table(os.environ['STORAGE_ADDRESS_NAME'])
     
     try:
         response = table.get_item(
             Key={
                 'id': user_id
             }
+        )
+
+        response_address = table_address.query(
+            IndexName= 'user_ids',
+            KeyConditionExpression=Key('user_id').eq(user_id)
         )
         
         if 'Item' in response:
@@ -44,7 +51,8 @@ def handler(event, context):
                 },
                 'body': json.dumps({
                     'message': 'User retrieved successfully',
-                    'user': user
+                    'user': user,
+                    'address': response_address['Items']
                 })
             }
         else:

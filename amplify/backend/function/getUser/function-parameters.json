@@ -4,6 +4,9 @@
     "storage": {
       "users": [
         "read"
+      ],
+      "address": [
+        "read"
       ]
     }
   }

@@ -1,0 +1,18 @@
+{
+  "resourceName": "address",
+  "tableName": "address",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "user_ids",
+      "partitionKey": {
+        "fieldName": "user_id",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}

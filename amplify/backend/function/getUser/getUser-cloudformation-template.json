@@ -27,6 +27,18 @@
     "storageusersStreamArn": {
       "Type": "String",
       "Default": "storageusersStreamArn"
+    },
+    "storageaddressName": {
+      "Type": "String",
+      "Default": "storageaddressName"
+    },
+    "storageaddressArn": {
+      "Type": "String",
+      "Default": "storageaddressArn"
+    },
+    "storageaddressStreamArn": {
+      "Type": "String",
+      "Default": "storageaddressStreamArn"
     }
   },
   "Conditions": {
@@ -90,6 +102,15 @@
             },
             "STORAGE_USERS_STREAMARN": {
               "Ref": "storageusersStreamArn"
+            },
+            "STORAGE_ADDRESS_NAME": {
+              "Ref": "storageaddressName"
+            },
+            "STORAGE_ADDRESS_ARN": {
+              "Ref": "storageaddressArn"
+            },
+            "STORAGE_ADDRESS_STREAMARN": {
+              "Ref": "storageaddressStreamArn"
             }
           }
         },
@@ -222,6 +243,34 @@
                     [
                       {
                         "Ref": "storageusersArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:PartiQLSelect"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageaddressArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageaddressArn"
                       },
                       "index/*"
                     ]
