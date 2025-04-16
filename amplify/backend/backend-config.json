@@ -1,5 +1,19 @@
 {
   "api": {
+    "address": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "createAddresses"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "users": {
       "dependsOn": [
         {
@@ -63,6 +77,29 @@
     }
   },
   "function": {
+    "createAddresses": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "devopsaws2fb804c5"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "address"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "createUser": {
       "build": true,
       "dependsOn": [
@@ -136,6 +173,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_createAddresses_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAddresses"
+        }
+      ]
+    },
+    "AMPLIFY_function_createAddresses_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAddresses"
+        }
+      ]
+    },
     "AMPLIFY_function_createUser_deploymentBucketName": {
       "usedBy": [
         {

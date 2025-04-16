@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import AvatarUpload from '@/components/AvatarUpload.vue';
 import { toast } from 'vue-sonner';
+import AddressManager from '@/components/AddressManager.vue';
 
 const userStore = useUserStore();
 const isLoading = ref(false);
@@ -30,20 +31,41 @@ const form = ref({
 });
 
 // Initialize user data if not already loaded
+// onMounted(async () => {
+//   if (!userStore.user) {
+//     isInitializing.value = true;
+//     await userStore.initializeUser();
+//     isInitializing.value = false;
+//   }
+  
+//   if (userStore.user) {
+//     form.value = {
+//       name: userStore.user.name || '',
+//       email: userStore.user.email || '',
+//     //   bio: userStore.user.bio || '',
+//     //   location: userStore.user.location || '',
+//     //   website: userStore.user.website || '',
+//       addresses: userStore.user.addresses || [],
+//     };
+//   }
+// });
+
 onMounted(async () => {
   if (!userStore.user) {
     isInitializing.value = true;
     await userStore.initializeUser();
     isInitializing.value = false;
   }
-  
+  console.log(userStore.address);
   if (userStore.user) {
     form.value = {
       name: userStore.user.name || '',
       email: userStore.user.email || '',
-      bio: userStore.user.bio || '',
-      location: userStore.user.location || '',
-      website: userStore.user.website || '',
+    //   bio: userStore.user.bio || '',
+    //   location: userStore.user.location || '',
+    //   website: userStore.user.website || '',
+      // Get addresses from user data
+      addresses: userStore.address || []
     };
   }
 });
@@ -56,9 +78,10 @@ async function updateProfile() {
     const updatedProfile = {
       name: form.value.name,
       email: form.value.email,
-      bio: form.value.bio,
-      location: form.value.location,
-      website: form.value.website,
+      addresses: form.value.addresses,
+    //   bio: form.value.bio,
+    //   location: form.value.location,
+    //   website: form.value.website,
       // Preserve the existing avatarKey if it exists
       avatarKey: userStore.user?.avatarKey || null
     };
@@ -128,8 +151,8 @@ const handleAvatarUpdate = (avatar) => {
             </div>
 
             <Separator />
-            
-            <div class="space-y-2">
+            <AddressManager v-model="form.addresses" />
+            <!-- <div class="space-y-2">
               <Label for="bio">Bio</Label>
               <Input id="bio" v-model="form.bio" placeholder="Tell us a bit about yourself" />
             </div>
@@ -144,7 +167,7 @@ const handleAvatarUpdate = (avatar) => {
                 <Label for="website">Website</Label>
                 <Input id="website" v-model="form.website" type="url" placeholder="https://yourwebsite.com" />
               </div>
-            </div>
+            </div> -->
           </form>
         </CardContent>
         <CardFooter class="flex justify-between">
