@@ -48,6 +48,14 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
+    "address": {
+      "Arn": "string",
+      "Name": "string",
+      "PartitionKeyName": "string",
+      "PartitionKeyType": "string",
+      "Region": "string",
+      "StreamArn": "string"
+    },
     "bucket": {
       "BucketName": "string",
       "Region": "string"
