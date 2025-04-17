@@ -17,7 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import AvatarUpload from '@/components/AvatarUpload.vue';
 import { toast } from 'vue-sonner';
 import AddressManager from '@/components/AddressManager.vue';
-
+import { get } from 'aws-amplify/api';
 const userStore = useUserStore();
 const isLoading = ref(false);
 const isInitializing = ref(false);
@@ -30,25 +30,29 @@ const form = ref({
   website: '',
 });
 
-// Initialize user data if not already loaded
-// onMounted(async () => {
-//   if (!userStore.user) {
-//     isInitializing.value = true;
-//     await userStore.initializeUser();
-//     isInitializing.value = false;
-//   }
-  
-//   if (userStore.user) {
-//     form.value = {
-//       name: userStore.user.name || '',
-//       email: userStore.user.email || '',
-//     //   bio: userStore.user.bio || '',
-//     //   location: userStore.user.location || '',
-//     //   website: userStore.user.website || '',
-//       addresses: userStore.user.addresses || [],
-//     };
-//   }
-// });
+const potd = ref({
+  title: '',
+  explanation: '',
+  url: '',
+  id: '',
+});
+
+async function getPotd(){
+    try {
+        const response = await get({
+        apiName: 'nasa',
+        path: '/potd',
+      });
+      const { body } = await response.response;
+      const potdData = await body.json();
+
+        potd.value = potdData;
+        console.log('Picture of the Day:', potd.value);
+        console.log(response)
+    } catch (error) {
+        console.error('Error fetching the picture of the day:', error);
+    }
+}
 
 onMounted(async () => {
   if (!userStore.user) {
@@ -67,7 +71,10 @@ onMounted(async () => {
       // Get addresses from user data
       addresses: userStore.address || []
     };
+
+    await getPotd();
   }
+
 });
 
 async function updateProfile() {
@@ -195,6 +202,35 @@ const handleAvatarUpdate = (avatar) => {
       <Button class="mt-4" @click="userStore.initializeUser">Refresh</Button>
     </div>
   </div>
+  <div v-if="potd" class="mt-12 p-4">
+  <Card>
+    <CardHeader>
+      <CardTitle>Picture of the Day</CardTitle>
+      <CardDescription>{{ potd.title }}</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="md:w-1/3">
+          <img 
+            :src="potd.url" 
+            :alt="potd.title" 
+            class="rounded-lg shadow-md w-full object-cover hover:shadow-lg transition-shadow" 
+            loading="lazy"
+          />
+          <p class="text-xs text-muted-foreground mt-2">{{ potd.id }}</p>
+        </div>
+        <div class="md:w-2/3">
+          <p class="text-sm text-muted-foreground line-clamp-[12] overflow-auto max-h-80">
+            {{ potd.explanation }}
+          </p>
+        </div>
+      </div>
+    </CardContent>
+    <CardFooter class="flex justify-between">
+      <p class="text-xs text-muted-foreground">NASA Astronomy Picture of the Day</p>
+    </CardFooter>
+  </Card>
+</div>
 </template>
 
 <style scoped>
