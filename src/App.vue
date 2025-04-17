@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col m-0 justify-center items-center"> 
+  <div class="flex flex-col m-0 mt-10 justify-center items-center"> 
     <RouterView />
   </div>
 </template>

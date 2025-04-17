@@ -2,14 +2,23 @@
   import { Authenticator } from "@aws-amplify/ui-vue";
   import "@aws-amplify/ui-vue/styles.css";
   import { useUserStore } from "@/stores/user";
+  import { useRouter } from 'vue-router';
 
+  const router = useRouter();
+  const userStore = useUserStore();
+
+  const handleAuthSuccess = async (user: any) => {
+    await userStore.initializeUser();
+    router.push('/');
+  };
 </script>
 
 <template>
   <authenticator>
     <template v-slot="{ user, signOut }">
-      <h1>Hello {{ user.username }}!</h1>
-      <button @click="signOut">Sign Out</button>
+      <div v-if="user" style="display:none">
+          {{ handleAuthSuccess(user) }}
+      </div>
     </template>
   </authenticator>
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 // @ts-nocheck
-import { useUserStore } from '@/stores/user';
+import { Authenticator } from "@aws-amplify/ui-vue";
+import "@aws-amplify/ui-vue/styles.css";
+import { useUserStore } from "@/stores/user";
 import { ref, onMounted } from 'vue';
 import { 
   Card, 
@@ -65,10 +67,6 @@ onMounted(async () => {
     form.value = {
       name: userStore.user.name || '',
       email: userStore.user.email || '',
-    //   bio: userStore.user.bio || '',
-    //   location: userStore.user.location || '',
-    //   website: userStore.user.website || '',
-      // Get addresses from user data
       addresses: userStore.address || []
     };
 
@@ -81,25 +79,17 @@ async function updateProfile() {
   try {
     isLoading.value = true;
     
-    // Update user profile in store with all form fields
     const updatedProfile = {
       name: form.value.name,
       email: form.value.email,
       addresses: form.value.addresses,
-    //   bio: form.value.bio,
-    //   location: form.value.location,
-    //   website: form.value.website,
-      // Preserve the existing avatarKey if it exists
       avatarKey: userStore.user?.avatarKey || null
     };
-    
-    // Call the API to update the user profile
+
     await userStore.updateUser(updatedProfile.name);
-    
-    // Update successful
+
     toast.success("Profile updated successfully");
   } catch (error) {
-    // Update failed
     toast.error("Error updating profile");
     console.error('Error updating profile:', error);
   } finally {
@@ -121,6 +111,10 @@ const handleAvatarUpdate = (avatar) => {
 </script>
 
 <template>
+
+
+<authenticator>
+    <template v-slot="{ user, signOut }">
   <div class="container mx-auto py-8 px-4 max-w-4xl">
     <div v-if="isInitializing" class="text-center p-8">
       <div class="animate-spin h-8 w-8 border-4 border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -128,15 +122,19 @@ const handleAvatarUpdate = (avatar) => {
     </div>
     
     <div v-else-if="userStore.user" class="fade-in">
-      <div class="flex flex-col md:flex-row items-center mb-6">
-        <div class="md:mr-6 mb-4 md:mb-0">
-          <AvatarUpload size="large" @update:avatar="handleAvatarUpdate" />
+        <div class="flex  justify-between items-center mb-6">
+            
+        <div class="flex flex-col md:flex-row items-center mb-6">
+            <div class="md:mr-6 mb-4 md:mb-0">
+            <AvatarUpload size="large" @update:avatar="handleAvatarUpdate" />
+            </div>
+            <div>
+            <h1 class="text-3xl font-bold">Welcome, {{ userStore.user.name }}</h1>
+            <p class="text-gray-500">Manage your profile information</p>
+            </div>
         </div>
-        <div>
-          <h1 class="text-3xl font-bold">Welcome, {{ userStore.user.name }}</h1>
-          <p class="text-gray-500">Manage your profile information</p>
+        <Button @click="signOut">Sign Out</Button>
         </div>
-      </div>
 
       <Card class="w-full">
         <CardHeader>
@@ -159,22 +157,6 @@ const handleAvatarUpdate = (avatar) => {
 
             <Separator />
             <AddressManager v-model="form.addresses" />
-            <!-- <div class="space-y-2">
-              <Label for="bio">Bio</Label>
-              <Input id="bio" v-model="form.bio" placeholder="Tell us a bit about yourself" />
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="space-y-2">
-                <Label for="location">Location</Label>
-                <Input id="location" v-model="form.location" placeholder="City, Country" />
-              </div>
-              
-              <div class="space-y-2">
-                <Label for="website">Website</Label>
-                <Input id="website" v-model="form.website" type="url" placeholder="https://yourwebsite.com" />
-              </div>
-            </div> -->
           </form>
         </CardContent>
         <CardFooter class="flex justify-between">
@@ -231,6 +213,9 @@ const handleAvatarUpdate = (avatar) => {
     </CardFooter>
   </Card>
 </div>
+</template>
+</authenticator>
+
 </template>
 
 <style scoped>

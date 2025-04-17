@@ -1,26 +1,56 @@
-# devops-aws
+# DevOps AWS
 
-This template should help get you started developing with Vue 3 in Vite.
+## Group : 
+- Fanny Gautier
+- Lucas Charoing
+- Vincent Germe
+- Clément Souplet
 
-## Recommended IDE Setup
+# Production link : 
+https://dev.d1i2kmxtnql1f8.amplifyapp.com 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+---
 
-## Type Support for `.vue` Imports in TS
+## Features
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- **Vue 3 Frontend**: Built with the latest Vue 3 composition API and TypeScript
+- **AWS Amplify Integration**: Serverless backend with authentication, API, and storage
+- **Modern UI**: Using Tailwind CSS for responsive design
+- **End-to-End Testing**: Playwright for comprehensive testing
+- **CI/CD Ready**: Configured for continuous integration and deployment
 
-## Customize configuration
+## Prerequisites
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- [Node.js](https://nodejs.org/) (v18 or later recommended)
+- [pnpm](https://pnpm.io/) for package management
+- AWS account for deploying Amplify resources
+- [AWS CLI](https://aws.amazon.com/cli/) and [Amplify CLI](https://docs.amplify.aws/cli/start/install/) for AWS interactions
 
-## Project Setup
+## Setup and Installation
+
+### Install Dependencies
 
 ```sh
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### Configure AWS Amplify
+
+If you haven't initialized Amplify yet:
+
+```sh
+amplify init
+```
+
+To pull an existing Amplify environment:
+
+```sh
+amplify pull --appId YOUR_APP_ID --envName YOUR_ENV_NAME
+```
+
+## Development
+
+### Start Development Server
 
 ```sh
 pnpm dev
@@ -32,21 +62,67 @@ pnpm dev
 pnpm build
 ```
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+### Preview Production Build
+
+```sh
+pnpm preview
+```
+
+## Testing
+
+### Run End-to-End Tests with Playwright
 
 ```sh
 # Install browsers for the first run
 npx playwright install
 
-# When testing on CI, must build the project first
-pnpm build
-
-# Runs the end-to-end tests
+# Run all tests
 pnpm test:e2e
-# Runs the tests only on Chromium
+
+# Run tests on Chromium only
 pnpm test:e2e --project=chromium
-# Runs the tests of a specific file
+
+# Run specific test file
 pnpm test:e2e tests/example.spec.ts
-# Runs the tests in debug mode
+
+# Run tests in debug mode
 pnpm test:e2e --debug
 ```
+
+## AWS Resources
+
+This project uses the following AWS services through Amplify:
+
+- **Authentication**: Amazon Cognito for user management
+- **API**: AppSync GraphQL API and/or REST APIs
+- **Storage**: S3 for file storage
+- **Functions**: Lambda functions for serverless computing
+
+## Project Structure
+
+```
+devops-aws/
+├── amplify/           # AWS Amplify configuration and resources
+├── public/            # Static assets
+├── src/               # Application source code
+│   ├── assets/        # Images, fonts, etc.
+│   ├── components/    # Vue components
+│   ├── router/        # Vue Router configuration
+│   ├── stores/        # Pinia stores
+│   ├── views/         # Page components
+│   └── main.ts        # Application entry point
+├── e2e/               # End-to-end tests
+└── ...                # Configuration files
+```
+
+## Deployment
+
+Deploy to AWS Amplify:
+
+```sh
+amplify push
+```
+
+## License
+
+[MIT](LICENSE)
