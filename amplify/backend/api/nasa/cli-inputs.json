@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "paths": {
+    "/potd": {
+      "name": "/potd",
+      "lambdaFunction": "getPotd",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "read"
+        ]
+      }
+    }
+  }
+}
